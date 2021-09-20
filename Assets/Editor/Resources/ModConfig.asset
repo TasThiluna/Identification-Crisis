@@ -18,6 +18,6 @@ MonoBehaviour:
     by TasThing.\r\nThere is absolutely nothing abnormal about this very traditional
     identification module!\r\n\r\nManual HTML: https://ktane.timwi.de/HTML/Identification%20Crisis.html\r\nManual
     PDF: https://ktane.timwi.de/PDF/Identification%20Crisis.pdf"
-  version: 1.0.2
+  version: 1.0.3
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 394ceffc4d5213f4f9426b56ae09041d, type: 3}
