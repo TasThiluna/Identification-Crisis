@@ -284,7 +284,7 @@ public class identificationCrisis : MonoBehaviour
         {
             var submitted = screenText.text;
             if (unhingingSubstage == 0)
-                Debug.LogFormat("[Identification Crisis #{0}] I recieved the submission of {1}.", moduleId, submitted);
+                Debug.LogFormat("[Identification Crisis #{0}] I received the submission of {1}.", moduleId, submitted);
             if (submitted == solution)
             {
                 if (flashingMorse != null)
@@ -984,5 +984,212 @@ public class identificationCrisis : MonoBehaviour
         }
         if (unhingingAnimation)
             moduleTransform.localPosition = new Vector3(rnd.Range(-0.015f, 0.015f), 0f, rnd.Range(-0.015f, 0.015f)) * Mathf.Pow(timeLerp, 6);
+    }
+
+    //twitch plays
+    #pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"To start a stage, use the command !{0} start | To type a text in the text box, use the command !{0} type <text> | To submit the text in the text box, use the command !{0} submit | To clear the text in the text box, use the command !{0} clear, or !{0} fastclear";
+    #pragma warning restore 414
+
+    string Current = "";
+
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        string[] parameters = command.Split(' ');
+        if (Regex.IsMatch(parameters[0], @"^\s*type\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+
+            if (!activated)
+            {
+                yield return "sendtochaterror The keys are not yet pressable. Command was ignored.";
+                yield break;
+            }
+
+            string validCharacters = "";
+            for (int i = 0; i < keyboard.Length; i++)
+            {
+                if (keyboard[i].gameObject.activeSelf && i != 48 && i != 37 && i != 12)
+                    validCharacters += keyboard[i].GetComponentInChildren<TextMesh>().text;
+                else
+                    validCharacters += " ";
+            }
+            for (int x = 0; x < parameters.Length - 1; x++)
+            {
+                foreach (char c in parameters[x + 1].ToUpperInvariant())
+                {
+                    if (!validCharacters.Contains(c))
+                    {
+                        yield return "sendtochaterror The command being submitted contains a character that is not typable with the given keyboard.";
+                        yield break;
+                    }
+                }
+            }
+
+            for (int y = 0; y < parameters.Length - 1; y++)
+            {
+                yield return "trycancel The command to type the text given was halted due to a cancel request.";
+                foreach (char c in parameters[y + 1].ToUpperInvariant())
+                {
+                    yield return "trycancel The command to type the text given was halted due to a cancel request.";
+                    Current = screenText.text;
+
+                    for (int z = 0; z < validCharacters.Count(); z++)
+                    {
+                        if (c == validCharacters[z])
+                        {
+                            keyboard[z].OnInteract();
+                            yield return new WaitForSeconds(0.05f);
+                            break;
+                        }
+                    }
+
+                    if (Current == screenText.text)
+                    {
+                        yield return "sendtochaterror The command was stopped due to the text box not able to receive more characters.";
+                        yield break;
+                    }
+                }
+
+                if (y != parameters.Length - 2)
+                {
+                    keyboard[48].OnInteract();
+                    yield return new WaitForSeconds(0.05f);
+                }
+
+                if (Current == screenText.text)
+                {
+                    yield return "sendtochaterror The command was stopped due to the text box not able to receive more characters.";
+                    yield break;
+                }
+            }
+        }
+
+        else if (Regex.IsMatch(command, @"^\s*clear\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+
+            if (!activated)
+            {
+                yield return "sendtochaterror The backspace key is not yet pressable. Command was ignored.";
+                yield break;
+            }
+
+            while (screenText.text.Length != 0)
+            {
+                yield return "trycancel The command to clear text in the text box was halted due to a cancel request.";
+                keyboard[12].OnInteract();
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+
+        else if (Regex.IsMatch(command, @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+
+            if (!activated || !stageActive)
+            {
+                yield return "sendtochaterror The text can not yet be submitted. Command was ignored.";
+                yield break;
+            }
+            keyboard[37].OnInteract();
+        }
+
+        else if (Regex.IsMatch(command, @"^\s*start\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+
+            if (!activated || stageActive)
+            {
+                yield return "sendtochaterror A new stage cannot yet be started. Command was ignored.";
+                yield break;
+            }
+            keyboard[37].OnInteract();
+        }
+
+        else if (Regex.IsMatch(command, @"^\s*fastclear\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+
+            if (!activated)
+            {
+                yield return "sendtochaterror The backspace key is not yet pressable. Command was ignored.";
+                yield break;
+            }
+
+            while (screenText.text.Length != 0)
+            {
+                keyboard[12].OnInteract();
+            }
+        }
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        int start = stage;
+        for (int i = start; i < 7; i++)
+        {
+            while (!activated) yield return true;
+            if (i == 2 && (unhingingSubstage == 1 || unhingingSubstage == 2))
+            {
+                if (unhingingSubstage == 1)
+                {
+                    keyboard[37].OnInteract();
+                    yield return new WaitForSeconds(0.05f);
+                }
+                keyboard[37].OnInteract();
+            }
+            else
+            {
+                if (!stageActive)
+                {
+                    keyboard[37].OnInteract();
+                    yield return new WaitForSeconds(0.05f);
+                }
+                if (screenText.text != solution)
+                {
+                    int clearNum = -1;
+                    for (int j = 0; j < screenText.text.Length; j++)
+                    {
+                        if (j == solution.Length)
+                            break;
+                        if (screenText.text[j] != solution[j])
+                        {
+                            clearNum = j;
+                            int target = screenText.text.Length - j;
+                            for (int k = 0; k < target; k++)
+                            {
+                                keyboard[12].OnInteract();
+                                yield return new WaitForSeconds(0.05f);
+                            }
+                            break;
+                        }
+                    }
+                    if (clearNum == -1)
+                    {
+                        if (screenText.text.Length > solution.Length)
+                        {
+                            while (screenText.text.Length > solution.Length)
+                            {
+                                keyboard[12].OnInteract();
+                                yield return new WaitForSeconds(0.05f);
+                            }
+                        }
+                        else
+                            yield return ProcessTwitchCommand("type " + solution.Substring(screenText.text.Length));
+                    }
+                    else
+                        yield return ProcessTwitchCommand("type " + solution.Substring(clearNum));
+                }
+                keyboard[37].OnInteract();
+                if (i == 2)
+                {
+                    yield return new WaitForSeconds(0.05f);
+                    keyboard[37].OnInteract();
+                    yield return new WaitForSeconds(0.05f);
+                    keyboard[37].OnInteract();
+                }
+            }
+        }
     }
 }
