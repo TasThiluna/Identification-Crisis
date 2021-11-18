@@ -19,6 +19,6 @@ MonoBehaviour:
     identification module!\r\n\r\n[url=https://ktane.timwi.de/HTML/Identification%20Crisis.html\r]Manual
     HTML[/url]\n[url=https://ktane.timwi.de/PDF/Identification%20Crisis.pdf]Manual
     PDF[/url]"
-  version: 1.1.4
+  version: 1.1.5
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 394ceffc4d5213f4f9426b56ae09041d, type: 3}
