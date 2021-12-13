@@ -700,11 +700,12 @@ public class identificationCrisis : MonoBehaviour
     private IEnumerator ChangeSubObjects()
     {
         var bonusTextures = new[] { boozleglyphTexturesA, boozleglyphTexturesB, boozleglyphTexturesC, emotiguyTextures, arsTextures, spongebobTextures, miiTextures, vtuberTextures, carTextures, cheeseTextures, cloudTextures, dragonTextures, fishTextures, knotTextures, masterTextures, ponyTextures, sauceTextures, smashTextures, spopTextures, terrariaTextures, ucnTextures, wbTextures };
-        for (int i = 0; i < 55; i++)
+        for (int i = 0; i < 55 || Mathf.Abs(.35f - storedFloatValues[1]) < .00001f; i++)
         {
             display.material.mainTexture = bonusTextures.PickRandom().PickRandom();
             screenText.text = GenerateRandomText();
-            yield return new WaitForSeconds(.1f);
+            if (Mathf.Abs(.35f - storedFloatValues[1]) >= .00001f)
+                yield return new WaitForSeconds(.1f);
         }
         screenText.text = "";
         display.material.mainTexture = questionMarks[1];
