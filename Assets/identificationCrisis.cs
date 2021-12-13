@@ -36,6 +36,7 @@ public class identificationCrisis : MonoBehaviour
     public Color[] rainbowColors;
 
     public Texture[] shapeTextures;
+    public Texture[] cutoutTextures;
     public Texture[] boozleglyphTexturesA;
     public Texture[] boozleglyphTexturesB;
     public Texture[] boozleglyphTexturesC;
@@ -47,7 +48,23 @@ public class identificationCrisis : MonoBehaviour
     public Texture[] customerTextures;
     public Texture[] spongebobTextures;
     public Texture[] vtuberTextures;
-    public Texture[] bonusTextures;
+
+    #region BonusTextures
+    public Texture[] carTextures;
+    public Texture[] cheeseTextures;
+    public Texture[] cloudTextures;
+    public Texture[] dragonTextures;
+    public Texture[] fishTextures;
+    public Texture[] knotTextures;
+    public Texture[] masterTextures;
+    public Texture[] ponyTextures;
+    public Texture[] sauceTextures;
+    public Texture[] smashTextures;
+    public Texture[] spopTextures;
+    public Texture[] terrariaTextures;
+    public Texture[] ucnTextures;
+    public Texture[] wbTextures;
+    #endregion
 
     private Renderer[] keyRenders = null;
     public Renderer dawn;
@@ -55,6 +72,7 @@ public class identificationCrisis : MonoBehaviour
     public Color crimsonRed;
     private CameraPostProcess postProcess = null;
     private Transform mainCameraTransform = null;
+    private float[] storedFloatValues = new float[3];
 
     private static readonly string[] shapeNames = new string[8] { "Circle", "Square", "Diamond", "Heart", "Star", "Triangle", "Pentagon", "Hexagon" };
     private static readonly string[] morseNames = new string[26] { "Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliet", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey", "X-Ray", "Yankee", "Zulu" };
@@ -127,14 +145,47 @@ public class identificationCrisis : MonoBehaviour
     private int moduleId;
     private bool moduleSolved;
 
+    #region ModSettings
+    identificationCrisisSettings settings = new identificationCrisisSettings();
+#pragma warning disable 414
+    private static Dictionary<string, object>[] TweaksEditorSettings = new Dictionary<string, object>[]
+    {
+      new Dictionary<string, object>
+      {
+        { "Filename", "Identification Crisis Settings.json"},
+        { "Name", "Identification Crisis" },
+        { "Listings", new List<Dictionary<string, object>>
+        {
+          new Dictionary<string, object>
+          {
+            { "Key", "UnendingSolveAnimation" },
+            { "Text", "If true, the keyboard never stops cycling through the rainbow, and the spacebar and text lerp through the rainbow as well."}
+          }
+        }}
+      }
+    };
+#pragma warning restore 414
+
+    private class identificationCrisisSettings
+    {
+        public bool unendingSolveAnimation = true;
+    }
+    #endregion
+
     private void Awake()
     {
         moduleId = moduleIdCounter++;
+        moduleId = moduleIdCounter++;
+        var modConfig = new modConfig<identificationCrisisSettings>("Identification Crisis Settings");
+        settings = modConfig.read();
+        modConfig.write(settings);
+
         foreach (KMSelectable key in keyboard)
             key.OnInteract += delegate () { KeyPress(key); return false; };
         module.OnActivate += delegate () { activated = true; };
         GetComponent<KMSelectable>().OnFocus += delegate () { moduleSelected = true; };
         GetComponent<KMSelectable>().OnDefocus += delegate () { moduleSelected = false; };
+
         keyRenders = keyboard.Select(x => x.GetComponent<Renderer>()).ToArray();
         startingKeyColor = keyRenders[0].material.color;
         mainCameraTransform = Camera.main.transform;
@@ -249,7 +300,7 @@ public class identificationCrisis : MonoBehaviour
     {
         if (!(stage == 2 && (unhingingSubstage == 0 || unhingingSubstage == 1) && Array.IndexOf(keyboard, key) == 37))
             key.AddInteractionPunch(.25f);
-        audio.PlaySoundAtTransform("type", key.transform);
+        audio.PlaySoundAtTransform(stage == 3 || stage == 4 || stage == 5 ? (rnd.Range(0, 200) != 0 ? "type" : "type loud") : "type", key.transform);
         if (!activated)
             return;
         var ix = Array.IndexOf(keyboard, key);
@@ -588,8 +639,8 @@ public class identificationCrisis : MonoBehaviour
             mainRef.StopSound();
             mainRef = null;
         }
-        if (rnd.Range(0, 2) == 0)
-            mainRef = audio.HandlePlaySoundAtTransformWithRef("machinery", transform, false);
+        if (rnd.Range(0, 6) <= 3)
+            mainRef = audio.HandlePlaySoundAtTransformWithRef("reveal" + rnd.Range(1, 8), transform, false);
     }
 
     private IEnumerator Unhinge()
@@ -604,6 +655,7 @@ public class identificationCrisis : MonoBehaviour
             StartCoroutine(FadeKey(key));
         StartCoroutine(ShakityShake());
         StartCoroutine(FadeIn());
+        StartCoroutine(ChangeSubObjects());
         StartCoroutine(ChangeObjects());
         yield return new WaitForSeconds(6f);
         StartCoroutine(FadeOut());
@@ -619,15 +671,8 @@ public class identificationCrisis : MonoBehaviour
 
     private IEnumerator ChangeObjects()
     {
-        for (int i = 0; i < 55; i++)
-        {
-            display.material.mainTexture = bonusTextures.PickRandom();
-            screenText.text = GenerateRandomText();
-            yield return new WaitForSeconds(.1f);
-        }
+        yield return new WaitUntil(() => Mathf.Abs(.35f - storedFloatValues[1]) < .00001f);
         face.material.mainTexture = smileyFaces[1];
-        display.material.mainTexture = questionMarks[1];
-        screenText.text = "";
         frame.material.mainTexture = frameTextures[1];
         surface.material.mainTexture = surfaceTextures[1];
         foreach (KMSelectable key in keyboard)
@@ -652,21 +697,61 @@ public class identificationCrisis : MonoBehaviour
             GUIUtility.systemCopyBuffer = clipboardMessages.PickRandom();
     }
 
+    private IEnumerator ChangeSubObjects()
+    {
+        var bonusTextures = new[] { boozleglyphTexturesA, boozleglyphTexturesB, boozleglyphTexturesC, emotiguyTextures, arsTextures, spongebobTextures, miiTextures, vtuberTextures, carTextures, cheeseTextures, cloudTextures, dragonTextures, fishTextures, knotTextures, masterTextures, ponyTextures, sauceTextures, smashTextures, spopTextures, terrariaTextures, ucnTextures, wbTextures };
+        for (int i = 0; i < 55; i++)
+        {
+            display.material.mainTexture = bonusTextures.PickRandom().PickRandom();
+            screenText.text = GenerateRandomText();
+            yield return new WaitForSeconds(.1f);
+        }
+        screenText.text = "";
+        display.material.mainTexture = questionMarks[1];
+    }
+
+    /*
+    private Texture[][] GenerateBonusTextures() This does't work because the Resources folder isn't built into the game, if I can fix that this will take the place of the array instantiation seen above
+    {
+        var textures = new List<Texture[]>();
+        var bonusFolderNames = new[] { "cars", "cheeses", "clouds", "dragons", "fish", "knots", "masters", "ponies", "sauces", "smash", "spop", "terraria", "ucn", "wb" };
+        var bonusItemNames = new[] { "car", "cheese", "cloud", "dragon", "fish", "knot", "master", "pony", "sauce", "smash", "spop", "terraria", "ucn", "wb" };
+        var bonusLengths = new[] { 9, 23, 10, 16, 16, 25, 84, 149, 5, 84, 30, 84, 50, 20 };
+        for (int i = 0; i < bonusLengths.Length; i++)
+        {
+            var list = new List<Texture>();
+            for (int j = 1; j < bonusLengths[i]; j++)
+                list.Add(Resources.Load<Texture>(bonusFolderNames[i] + "/" + bonusItemNames[i] + j));
+            textures.Add(list.ToArray());
+        }
+        textures.Add(boozleglyphTexturesA);
+        textures.Add(boozleglyphTexturesB);
+        textures.Add(boozleglyphTexturesC);
+        textures.Add(arsTextures);
+        textures.Add(miiTextures);
+        textures.Add(spongebobTextures);
+        textures.Add(vtuberTextures);
+        return textures.ToArray();
+    }
+    */
+
     private IEnumerator ReshowShape()
     {
+        face.transform.localScale = new Vector3(.062f, .001f, .062f);
         face.material.mainTexture = staticTexture;
         yield return new WaitForSeconds(.2f);
-        face.material.mainTexture = shapeTextures[shapesUsed[stage - 3]];
+        face.material.mainTexture = cutoutTextures[shapesUsed[stage - 3]];
         yield return new WaitForSeconds(.5f);
         face.material.mainTexture = staticTexture;
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(2.77f);
+        face.transform.localScale = new Vector3(.05f, .001f, .05f);
         face.material.mainTexture = smileyFaces[1];
     }
 
     private IEnumerator FadeKey(Renderer key)
     {
         var elapsed = 0f;
-        var duration = 2f;
+        var duration = 6f;
         while (elapsed < duration)
         {
             key.material.color = Color.Lerp(startingKeyColor, Color.black, elapsed / duration);
@@ -739,23 +824,37 @@ public class identificationCrisis : MonoBehaviour
         const float duration = 6f;
         for (float progress = 0.0f; progress < duration; progress += Time.deltaTime * speed)
         {
-            postProcess.Vignette = progress * 1.6f / duration;
-            postProcess.Grayscale = progress * .35f / duration;
-            postProcess.Timer = progress * .5f / duration;
+            var vig = progress * 1.6f / duration;
+            var gscale = progress * .35f / duration;
+            var timer = progress * .5f / duration;
+            postProcess.Vignette = vig;
+            postProcess.Grayscale = gscale;
+            postProcess.Timer = timer;
+            storedFloatValues[0] = vig;
+            storedFloatValues[1] = gscale;
+            storedFloatValues[2] = timer;
             yield return null;
         }
 
         postProcess.Vignette = 1.6f;
         postProcess.Grayscale = .35f;
+        storedFloatValues[0] = 1.6f;
+        storedFloatValues[1] = .35f;
     }
 
     private IEnumerator FadeOut(float speed = 1.0f)
     {
         for (float progress = 3.0f - Time.deltaTime * speed; progress >= 0.0f; progress -= Time.deltaTime * speed)
         {
-            postProcess.Vignette = progress * 1.6f;
-            postProcess.Grayscale = progress * 0.35f;
-            postProcess.Timer = progress * .5f;
+            var vig = progress * 1.6f;
+            var gscale = progress * .35f;
+            var timer = progress * .5f;
+            postProcess.Vignette = vig;
+            postProcess.Grayscale = gscale;
+            postProcess.Timer = timer;
+            storedFloatValues[0] = vig;
+            storedFloatValues[1] = gscale;
+            storedFloatValues[2] = timer;
             yield return null;
         }
 
@@ -831,22 +930,23 @@ public class identificationCrisis : MonoBehaviour
         StartCoroutine(FlickerShapes(38));
         StartCoroutine(FlickerLightsSolve());
         StartCoroutine(RainbowKeys());
-        StartCoroutine(FadeSpaceAndText());
+        if (settings.unendingSolveAnimation)
+            StartCoroutine(FadeSpaceAndText());
         yield return null;
     }
 
 
     private IEnumerator FlickerLightsSolve()
     {
-        for (int i = 0; i < 19; i++)
+        for (int i = 0; i < 14; i++)
         {
             foreach (Renderer l in lights)
                 l.material.color = rainbowColors[i % 7];
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(.2085f);
         }
         foreach (Renderer l in lights)
             l.material.color = Color.black;
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(.255f);
         for (int i = 0; i < 3; i++)
         {
             lights[i].material.color = litColor;
@@ -867,6 +967,8 @@ public class identificationCrisis : MonoBehaviour
             }
             yield return new WaitForSeconds(.2f);
         }
+        if (!settings.unendingSolveAnimation)
+            yield break;
         var colorsToColor = new Color[14];
         var offsets = new int[14] { 13, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
         while (true)
@@ -943,9 +1045,9 @@ public class identificationCrisis : MonoBehaviour
     {
         activated = false;
         mainRef = audio.HandlePlaySoundAtTransformWithRef("dawn", transform, false);
-        dawn.transform.localScale = new Vector3(.2f, .2f, .2f);
+        dawn.gameObject.SetActive(true);
         yield return new WaitForSeconds(10f);
-        dawn.transform.localScale = new Vector3(.01f, .01f, .01f);
+        dawn.gameObject.SetActive(false);
         activated = true;
     }
 
