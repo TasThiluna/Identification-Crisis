@@ -134,6 +134,7 @@ public class identificationCrisis : MonoBehaviour
 
     private bool stageActive;
     private bool activated;
+    private bool changingSubobjects = true;
     private bool unhingingAnimation;
     private int unhingingSubstage;
     private float timeLerp;
@@ -672,6 +673,7 @@ public class identificationCrisis : MonoBehaviour
     private IEnumerator ChangeObjects()
     {
         yield return new WaitUntil(() => Mathf.Abs(.35f - storedFloatValues[1]) < .00001f);
+        changingSubobjects = false;
         face.material.mainTexture = smileyFaces[1];
         frame.material.mainTexture = frameTextures[1];
         surface.material.mainTexture = surfaceTextures[1];
@@ -700,12 +702,11 @@ public class identificationCrisis : MonoBehaviour
     private IEnumerator ChangeSubObjects()
     {
         var bonusTextures = new[] { boozleglyphTexturesA, boozleglyphTexturesB, boozleglyphTexturesC, emotiguyTextures, arsTextures, spongebobTextures, miiTextures, vtuberTextures, carTextures, cheeseTextures, cloudTextures, dragonTextures, fishTextures, knotTextures, masterTextures, ponyTextures, sauceTextures, smashTextures, spopTextures, terrariaTextures, ucnTextures, wbTextures };
-        for (int i = 0; i < 55 || Mathf.Abs(.35f - storedFloatValues[1]) < .00001f; i++)
+        while (changingSubobjects)
         {
             display.material.mainTexture = bonusTextures.PickRandom().PickRandom();
             screenText.text = GenerateRandomText();
-            if (Mathf.Abs(.35f - storedFloatValues[1]) >= .00001f)
-                yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.1f);
         }
         screenText.text = "";
         display.material.mainTexture = questionMarks[1];
