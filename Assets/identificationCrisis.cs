@@ -176,7 +176,6 @@ public class identificationCrisis : MonoBehaviour
     private void Awake()
     {
         moduleId = moduleIdCounter++;
-        moduleId = moduleIdCounter++;
         var modConfig = new modConfig<identificationCrisisSettings>("Identification Crisis Settings");
         settings = modConfig.read();
         modConfig.write(settings);
