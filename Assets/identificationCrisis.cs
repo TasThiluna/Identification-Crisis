@@ -1000,7 +1000,7 @@ public class identificationCrisis : MonoBehaviour
     private IEnumerator TextSpill()
     {
         activated = false;
-        var letter = screenText.text.Last();
+        var letter = screenText.text == "" ? 'A' : screenText.text.Last();
         while (screenText.text.Length < 40)
         {
             screenText.text += letter;
