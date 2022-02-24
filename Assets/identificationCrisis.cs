@@ -186,6 +186,14 @@ public class identificationCrisis : MonoBehaviour
         GetComponent<KMSelectable>().OnFocus += delegate () { moduleSelected = true; };
         GetComponent<KMSelectable>().OnDefocus += delegate () { moduleSelected = false; };
 
+        GetComponent<KMGameInfo>().OnStateChange += state => {
+            if (state == KMGameInfo.State.Transitioning)
+            {
+                if (postProcess != null)
+                    DestroyImmediate(postProcess);
+            }
+        };
+
         keyRenders = keyboard.Select(x => x.GetComponent<Renderer>()).ToArray();
         startingKeyColor = keyRenders[0].material.color;
         mainCameraTransform = Camera.main.transform;
