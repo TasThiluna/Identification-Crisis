@@ -140,6 +140,7 @@ public class identificationCrisis : MonoBehaviour
     private float timeLerp;
     private Coroutine flashingMorse;
     private Coroutine flickeringLights;
+    private static bool sploodging;
 
     private bool moduleSelected;
     private static int moduleIdCounter = 1;
@@ -181,8 +182,8 @@ public class identificationCrisis : MonoBehaviour
         modConfig.write(settings);
 
         foreach (KMSelectable key in keyboard)
-            key.OnInteract += delegate () { KeyPress(key); return false; };
-        module.OnActivate += delegate () { activated = true; };
+            key.OnInteract += delegate { KeyPress(key); return false; };
+        module.OnActivate += delegate { activated = true; sploodging = false; };
         GetComponent<KMSelectable>().OnFocus += delegate () { moduleSelected = true; };
         GetComponent<KMSelectable>().OnDefocus += delegate () { moduleSelected = false; };
 
@@ -367,6 +368,8 @@ public class identificationCrisis : MonoBehaviour
                 }
                 else if (stage == 2 && unhingingSubstage == 2)
                 {
+                    if (sploodging)
+                        return;
                     stage++;
                     if (mainRef != null)
                     {
@@ -647,6 +650,7 @@ public class identificationCrisis : MonoBehaviour
     {
         activated = false;
         unhingingAnimation = true;
+        sploodging = true;
         Debug.LogFormat("[Identification Crisis #{0}] The transformation, the pressure... It's unbearable...", moduleId);
         Debug.LogFormat("[Identification Crisis #{0}] How could they? How could they beat me into the ground like that?", moduleId);
         mainRef = audio.HandlePlaySoundAtTransformWithRef("unhingification", transform, false);
@@ -861,6 +865,9 @@ public class identificationCrisis : MonoBehaviour
             DestroyImmediate(postProcess);
             postProcess = null;
         }
+
+        yield return new WaitForSeconds(.5f);
+        sploodging = false;
     }
 
     private IEnumerator Rehinge()
@@ -1086,6 +1093,19 @@ public class identificationCrisis : MonoBehaviour
         }
         if (unhingingAnimation)
             moduleTransform.localPosition = new Vector3(rnd.Range(-0.015f, 0.015f), 0f, rnd.Range(-0.015f, 0.015f)) * Mathf.Pow(timeLerp, 6);
+    }
+
+    private void OnDestroy()
+    {
+        sploodging = false;
+        if (postProcess != null)
+        {
+            postProcess.Vignette = 0f;
+            postProcess.Grayscale = 0f;
+            postProcess.Timer = 0f;
+            DestroyImmediate(postProcess);
+            postProcess = null;
+        }
     }
 
     // Twitch Plays
