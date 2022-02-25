@@ -1209,7 +1209,7 @@ public class identificationCrisis : MonoBehaviour
         {
             yield return null;
 
-            if (!activated || !stageActive)
+            if (!activated || !stageActive || (unhingingSubstage == 2 && sploodging))
             {
                 yield return "sendtochaterror The text can not yet be submitted. Command was ignored.";
                 yield break;
@@ -1259,6 +1259,7 @@ public class identificationCrisis : MonoBehaviour
                     keyboard[37].OnInteract();
                     yield return new WaitForSeconds(0.05f);
                 }
+                while (sploodging) yield return true;
                 keyboard[37].OnInteract();
             }
             else
@@ -1309,6 +1310,7 @@ public class identificationCrisis : MonoBehaviour
                     yield return new WaitForSeconds(0.05f);
                     keyboard[37].OnInteract();
                     yield return new WaitForSeconds(0.05f);
+                    while (sploodging) yield return true;
                     keyboard[37].OnInteract();
                 }
             }
