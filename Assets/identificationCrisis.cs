@@ -47,7 +47,6 @@ public class identificationCrisis : MonoBehaviour
     public Texture[] miiTextures;
     public Texture[] customerTextures;
     public Texture[] spongebobTextures;
-    public Texture[] vtuberTextures;
 
     #region BonusTextures
     public Texture[] carTextures;
@@ -85,8 +84,7 @@ public class identificationCrisis : MonoBehaviour
     private static readonly string[] arsNames = new string[72] { "Agares", "Aim", "Alloces", "Amdusias", "Amon", "Andras", "Andrealphus", "Andromalius", "Asmoday", "Astaroth", "Avnas", "Bael", "Balaam", "Barbatos", "Bathin", "Beleth", "Belial", "Berith", "Bifrovs", "Botis", "Buer", "Bune", "Camio", "Cimejes", "Crocell", "Dantalion", "Decarabia", "Eligos", "Flauros", "Focalor", "Foras", "Forneus", "Furcas", "Furfur", "Gaap", "Glasua-Labolas", "Gremory", "Gusion", "Haagenti", "Halphas", "Ipos", "Leraje", "Malphas", "Marax", "Marbas", "Marchosias", "Murmur", "Naberius", "Naphula", "Oriax", "Orobas", "Paimon", "Pheynix", "Purson", "Raum", "Ronove", "Sabnock", "Sallos", "Samigina", "Seere", "Shaz", "Sitri", "Stolas", "Ualac", "Valefor", "Vassago", "Vephar", "Vinea", "Voso", "Voval", "Zagan", "Zepar" };
     private static readonly string[] miiNames = new string[100] { "Abby", "Abe", "Ai", "Akira", "Alex", "Alisha", "Andy", "Anna", "Asami", "Ashley", "Barbara", "Chika", "Chris", "Cole", "Daisuke", "David", "Eddy", "Eduardo", "Elisa", "Emily", "Emma", "Eva", "Fritz", "Fumiko", "Gabi", "Gabriele", "George", "Giovanna", "Greg", "Gwen", "Haru", "Hayley", "Helen", "Hiromasa", "Hiromi", "Hiroshi", "Holly", "Ian", "Jackie", "Jake", "James", "Jessie", "Julie", "Kathrin", "Keiko", "Kentaro", "Luca", "Lucia", "Marco", "Maria", "Marisa", "Martin", "Matt", "Megan", "Mia", "Michael", "Midori", "Miguel", "Mike", "Misaki", "Miyu", "Naomi", "Nelly", "Nick", "Oscar", "Pablo", "Patrick", "Pierre", "Rachel", "Rainer", "Ren", "Rin", "Ryan", "Saburo", "Sakura", "Sandra", "Sarah", "Shinnosuke", "Shinta", "Shohei", "Shouta", "Silke", "Siobhan", "Sota", "Steph", "Stephanie", "Steve", "Susana", "Takashi", "Takumi", "Tatsuaki", "Theo", "Tommy", "Tomoko", "Tyrone", "Ursula", "Victor", "Vincenzo", "Yoko", "Yoshi" };
     private static readonly string[] customerNames = new string[139] { "Akari", "Alberto", "Allan", "Amy", "Austin", "Bertha", "Big Pauly", "Boomer", "Boopsy & Bill", "Brody", "Bruna Romano", "C.J. Friskins", "Cameo", "Captain Cori", "Carlo Romano", "Cecilia", "Cherissa", "Chester", "Chuck", "Clair", "Cletus", "Clover", "Connor", "Cooper", "Crystal", "Daniela", "Deano", "Didar", "Doan", "Drakson", "Duke Gotcha", "Edna", "Elle", "Ember", "Emmlette", "Evelyn", "Fernanda", "Foodini", "Franco", "Georgito", "Gino Romano", "Greg", "Gremmie", "Hacky Zak", "Hank", "Hope", "Hugo", "Iggy", "Indigo", "Ivy", "James", "Janana", "Johnny", "Jojo", "Joy", "Julep", "Kahuna", "Kaleb", "Kasey O", "Kayla", "Kenji", "Kenton", "Kingsley", "Koilee", "LePete", "Liezel", "Lisa", "Little Edoardo", "Maggie", "Mandi", "Marty", "Mary", "Matt", "Mayor Mallow", "Mesa", "Mindy", "Mitch", "Moe", "Mousse", "Mr. Bombolony", "Nevada", "Nick", "Ninjoy", "Nye", "Okalani", "Olga", "Olivia", "Pally", "Papa Louie", "Peggy", "Penny", "Perri", "Petrona", "Pinch Hitwell", "Professor Fitz", "Prudence", "Quinn", "Radlynn", "Rhonda", "Rico", "Ripley", "Rita", "Robby", "Rollie", "Roy", "Rudy", "Santa", "Sarge Fan", "Sasha", "Scarlett", "Scooter", "Shannon", "Sienna", "Simone", "Skip", "Skyler", "Sprinks the Clown", "Steven", "Sue", "Taylor", "The Dynamoe", "Timm", "Tohru", "Tony", "Trishna", "Utah", "Vicky", "Vincent", "Wally", "Wendy", "Whiff", "Whippa", "Willow", "Wylan B", "Xandra", "Xolo", "Yippy", "Yui", "Zoe" };
-    private static readonly string[] spongebobNames = new string[70] { "Abela", "Aiden", "Allen", "Amber", "Apollo Yuojan", "Ashley", "Bobby", "Brayden", "Brendon", "Brent", "Bryce", "Caoimhe", "Carl Pobie", "Carlos Paolo", "Carson", "Chester Paul", "Christopher", "Cristian James Glavez", "Cyan Miguel", "Danny", "Dave", "Davian", "Donn Jeff Velionix Fijo", "Drew Justin", "Ethan", "Fabio", "Frame Baby", "Gabriel Felix", "Grayson", "Hayden", "Jacob", "Jaden", "Jakes", "James", "Jayden", "Jeremiah", "Jon \"JonJon\" Eric Cabebe Jr.", "Juan Carlos", "Julian", "Junely Delos Reyes Jr.", "Kate Venus Valadores", "Ken Ivan", "Kenny Lee", "King Monic", "Kurt", "Landon", "Logan", "Lukas", "Makenly", "Mason", "Max", "Melvern Ryann", "Michael", "Miguel", "Myles A. Williams", "Neftali Xyler S. Ilao", "Noah", "Patrick", "Raymond", "Rhojus", "Sam Daniel", "Seth Laurence", "Shik", "Simon", "Sony Boy", "Spanky", "Spencer", "Stacey", "Steve Jr.", "Xander Chio E. Ceniza" };
-    private static readonly string[] vtuberNames = new string[184] { "Aiba Uiha", "Airani Iofifteen", "Aizono Manami", "Akabane Youko", "Akai Haato", "Aki Rosenthal", "Amamiya Kokoro", "Amane Kanata", "Amano Pikamee", "Amatsuka Uto", "Amemori Sayo", "Ange Katrina", "Anya Melfissa", "Aoi Nabi", "Apricot", "Aragami Oga", "Ars Almal", "Arurandeisu", "Asahina Akane", "Astel Leda", "Asuka Hina", "Ayunda Risu", "AZKi", "Azuchi Momo", "Belmond Banderas", "Ceres Fauna", "Debidebi Debiru", "Dennuo Shojo Siro", "Dola", "Eli Conifer", "Elira Pendora", "Elu the Elf", "Emma August", "Ex Albio", "Finana Ryugu", "Fumi", "Fumino Tamaki", "Furen E Lustario", "Fushimi Gaku", "Fuwa Minato", "Gawr Gura", "Genzuki Tojiro", "Gilzaren III", "Gundo Mirei", "Gwelu Os Gar", "Hakase Fuyuki", "Hakos Balez", "Hanabatake Chaika", "Hanasaki Miyabi", "Hayama Marin", "Hayase Sou", "Higuchi Kaede", "Hikasa Tomoshika", "Hime Hajime", "Himemori Luna", "Honma Himawari", "Hoshikawa Sara", "Hoshimachi Suisei", "Houshou Marine", "Ibrahim", "Ienaga Mugi", "Inugami Korone", "Inui Toko", "Inuyama Tamaki", "Ironmouse", "IRyS", "Joe Rikiichi", "Kagami Hayato", "Kageyama Shien", "Kaguya Luna", "Kaida Haru", "Kamiko Kana", "Kanade Izuru", "Kanae", "Kanda Shoichi", "Kataribe Tsumugu", "Kenmochi Toya", "Kishido Temma", "Kitakoji Hisui", "Kizuna AI", "Kureji Ollie", "Kuroi Shiba", "Kurusu Natsume", "Kuzuha", "Levi Elipha", "Lize Helesta", "Luis Cammy", "Machita Chima", "Maimoto Keisuke", "Makaino Ririmu", "Mashiro", "Matsuaki Mao", "Mayuzumi Kai", "Melissa Kinrenka", "Minato Aqua", "Mirai Akari", "Moira", "Momosuzu Nene", "Mononobe Alice", "Moona Hoshinova", "Mori Calliope", "Morinaka Kazaki", "Murasaki Shion", "Nachoneko", "Nagao Kei", "Nakiri Ayame", "Nanashi Mumei", "Naraka", "Natsuiro Matsuri", "Nekomata Okayu", "Ninomae Ina'nis", "Nishizono Chigusa", "Nui Sociere", "Nyatasha Nyanners", "Omaru Polka", "Onomachi Haruka", "Ookami Mio", "Oozora Subaru", "Ouro Kronii", "Pavolia Reine", "Pomu Rainpuff", "Projekt Melody", "Ratna Petit", "Rikka", "Rindou Mikoto", "Roboco", "Ryushen", "Saegusa Akina", "Sakura Miko", "Sakura Ritsuki", "Sasaki Saku", "Seto Miyako", "Shellin Burgundy", "Shibuya Hajime", "Shigure Ui", "Shiina Yuika", "Shirakami Fubuki", "Shiranui Flare", "Shirayuki Tomoe", "Shirogane Noel", "Shishiro Botan", "Shizuka Rin", "Silvervale", "Sister Claire", "Sorahoshi Kirame", "Sukoya Kana", "Suo Sango", "Suzuka Utako", "Suzuki Hina", "Suzuki Masaru", "Suzuya Aki", "Takamiya Rion", "Takanashi Kiara", "Tanaka Hime", "Todo Kohaku", "Todoroki Kyoko", "Tokino Sora", "Tokoyami Towa", "Tsukino Mito", "Tsukomo Sana", "Tsunomaki Watame", "Uruha Rushia", "Usada Pekora", "Ushimi Ichigo", "Uzuki Kou", "Veibae", "Virtual Noja Loli Kitsunemusume Youtuber Ojisan", "Warabeda Meiji", "Watson Amelia", "Weatheroid Type A Airi", "Yaguruma Rine", "Yamagami Karuta", "Yashiro Kizuku", "Yorumi Rena", "Yozora Mel", "Yuhi Riri", "Yuki Chihiro", "Yukihana Lamy", "Yukishiro Mahiro", "Yukoku Roberu", "Yumeoi Kakeru", "Yuzuki Choco", "Yuzuki Roa", "Zentreya" };
+    private static readonly string[] spongebobNames = new string[70] { "Abela", "Aiden", "Allen", "Amber", "Apollo Yuojan", "Ashley", "Bobby", "Brayden", "Brendon", "Brent", "Bryce", "Caoimhe", "Carl Pobie", "Carlos Paolo", "Carson", "Chester Paul", "Christopher", "Cristian James Glavez", "Cyan Miguel", "Danny", "Dave", "Davian", "Donn Jeff Velionix Fijo", "Drew Justin", "Ethan", "Fabio", "Frame Baby", "Gabriel Felix", "Grayson", "Hayden", "Jacob", "Jaden", "Jake", "James", "Jayden", "Jeremiah", "Jon \"JonJon\" Eric Cabebe Jr.", "Juan Carlos", "Julian", "Junely Delos Reyes Jr.", "Kate Venus Valadores", "Ken Ivan", "Kenny Lee", "King Monic", "Kurt", "Landon", "Logan", "Lukas", "Makenly", "Mason", "Max", "Melvern Ryann", "Michael", "Miguel", "Myles A. Williams", "Neftali Xyler S. Ilao", "Noah", "Patrick", "Raymond", "Rhojus", "Sam Daniel", "Seth Laurence", "Shik", "Simon", "Sony Boy", "Spanky", "Spencer", "Stacey", "Steve Jr.", "Xander Chio E. Ceniza" };
     private static readonly string[][] messages = new string[][]
     {
         new[] { "Morse... I don't suppose that modder knew what he was getting into. At the time, it was just a cool name.", "One of only two needies... I guess people are more sensible than to make you pick out of hundreds of images in a needy's time.", "Morse Identification doesn't even flicker the screen, how boring." },
@@ -98,14 +96,13 @@ public class identificationCrisis : MonoBehaviour
         new[] { "Mii Identification, the only one of the non-needy identification modules to not use the standard keyboard layout. At least it has that going for it.", "Did you know that there are exactly 50 male and exactly 50 female miis?", "Every mii in Mii Identification did actually appear in the Wii Sports games- they were used as spectators and opponents." },
         new[] { "Customer Identification, pulling from a series of games several people miss.", "Did you know that for a while, Customer Identification was noticably sunken into the bomb? ...I don't know why either.", "Did you know that Customer Identification's flavor text references Cheap Checkout?", "The creator of Ars Goetia Identification was hoping that people would remove the useless keys in the future, but Customer Identification did not." },
         new[] { "Spongebob Birthday Identification, the shitpost to end all shitposts. How funny it is is ostensible.", "Did you know that you can uncap Spongebob Birthday Identification?", "The phrase typed into Google Images that eventally led to the creation of Spongebob Birthday Identification was, and I quote, \"spongebob tricycle free download facebook I want it\"." },
-        new[] { "Have you ever tried typing \"Annoying Orange\" into a VTuber Identification?", "One could say the real-time projection of Mario's head at an E3 event was the first ever VTuber.", "Some of the names in VTuber Identification are too long to fit on its screen. I don't know what happens if you need to type one in, and I don't care very much." },
     };
     private static readonly string[] morseCode = new[] { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.." };
     private static readonly KeyCode[] typableKeys = new[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0, KeyCode.Minus, KeyCode.Equals, KeyCode.Backspace, KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.R, KeyCode.T, KeyCode.Y, KeyCode.U, KeyCode.I, KeyCode.O, KeyCode.P, KeyCode.LeftBracket, KeyCode.RightBracket, KeyCode.Backslash, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.F, KeyCode.G, KeyCode.H, KeyCode.J, KeyCode.K, KeyCode.L, KeyCode.Semicolon, KeyCode.Quote, KeyCode.Return, KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V, KeyCode.B, KeyCode.N, KeyCode.M, KeyCode.Comma, KeyCode.Period, KeyCode.Slash, KeyCode.Space };
     private static readonly string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private char[] displayedSquareLetters = new char[6];
     private string[] encryptedAlphabet = new string[26];
-    private static readonly int[] caesarShifts = new[] { 1, 19, 6, 21, 16, 3, 0, 12, 25, 5, 0, 6, 14, 17, 20, 15, 8, 10, 16, 19, 22, 11, 4, 0, 18, 15, 1, 0, 7, 19, 25, 14, 0, 4, 3, 15, 21, 5, 20, 1, 8, 19, 2, 10, 0, 17, 22, 9, 0, 18, 3, 23, 2, 13, 17, 11, 24, 17, 10, 24, 16, 0, 23, 18, 13, 0, 5, 11, 8, 12, 7, 20, 12, 4, 0, 9, 2, 14, 6, 13 };
+    private static readonly int[] caesarShifts = new[] { 1, 19, 6, 21, 16, 3, 0, 12, 25, 5, 0, 6, 14, 17, 20, 15, 8, 10, 16, 19, 22, 11, 4, 0, 18, 15, 1, 0, 7, 19, 25, 14, 0, 4, 3, 15, 21, 5, 20, 1, 8, 19, 2, 10, 0, 17, 22, 9, 0, 18, 3, 23, 2, 13, 17, 11, 24, 17, 10, 24, 16, 0, 23, 18, 13, 0, 5, 11, 8, 12, 7, 20 };
     private static readonly int[][] solveAnimationKeys = new int[][]
     {
         new[] { 0 },
@@ -195,7 +192,7 @@ public class identificationCrisis : MonoBehaviour
     private void Start()
     {
         shapesUsed = new int[3].Select(x => x = rnd.Range(0, 8)).ToArray();
-        datasetsUsed = new int[3].Select(x => x = rnd.Range(0, 10)).ToArray();
+        datasetsUsed = new int[3].Select(x => x = rnd.Range(0, 9)).ToArray();
         finalShape = rnd.Range(0, 8);
         letterCount = bomb.GetSerialNumberLetters().Count();
         foreach (Renderer l in lights)
@@ -406,7 +403,7 @@ public class identificationCrisis : MonoBehaviour
                         switch (effect)
                         {
                             case 0:
-                                mainRef = audio.HandlePlaySoundAtTransformWithRef("scary" + rnd.Range(1, 6), transform, false);
+                                mainRef = audio.HandlePlaySoundAtTransformWithRef("scary" + rnd.Range(1, 5), transform, false);
                                 break;
                             case 1:
                                 StartCoroutine(TextSpill());
@@ -519,9 +516,6 @@ public class identificationCrisis : MonoBehaviour
                 case 8:
                     soundName = "spongebob";
                     break;
-                case 9:
-                    soundName = "vtuber";
-                    break;
             }
             if (mainRef != null)
             {
@@ -622,16 +616,6 @@ public class identificationCrisis : MonoBehaviour
                 display.material.mainTexture = spongebobTextures[ix];
                 solution = Encrypt(spongebobNames[ix], amount, shift);
                 break;
-            case 9:
-                ix = rnd.Range(0, vtuberNames.Length);
-                while (vtuberNames[ix] == "Virtual Noja Loli Kitsunemusume Youtuber Ojisan")
-                    ix = rnd.Range(0, vtuberNames.Length);
-                Debug.LogFormat("[Identification Crisis #{0}] Some VTuber's just started streaming, apparently. They go by {1}.", moduleId, vtuberNames[ix]);
-                if (rnd.Range(0, 100) == 0)
-                    Debug.LogFormat("[Identification Crisis #{0}] I fucking hate VTubers.", moduleId);
-                display.material.mainTexture = vtuberTextures[ix];
-                solution = Encrypt(vtuberNames[ix], amount, shift);
-                break;
         }
         if (solution == "")
             Debug.LogFormat("[Identification Crisis #{0}] When all is said and all is done, it appears that you can just submit nothing this stage.", moduleId);
@@ -701,7 +685,7 @@ public class identificationCrisis : MonoBehaviour
 
     private IEnumerator ChangeSubObjects()
     {
-        var bonusTextures = new[] { boozleglyphTexturesA, boozleglyphTexturesB, boozleglyphTexturesC, emotiguyTextures, arsTextures, spongebobTextures, miiTextures, vtuberTextures, carTextures, cheeseTextures, cloudTextures, dragonTextures, fishTextures, knotTextures, masterTextures, ponyTextures, sauceTextures, smashTextures, spopTextures, terrariaTextures, ucnTextures, wbTextures };
+        var bonusTextures = new[] { boozleglyphTexturesA, boozleglyphTexturesB, boozleglyphTexturesC, emotiguyTextures, arsTextures, spongebobTextures, miiTextures, carTextures, cheeseTextures, cloudTextures, dragonTextures, fishTextures, knotTextures, masterTextures, ponyTextures, sauceTextures, smashTextures, spopTextures, terrariaTextures, ucnTextures, wbTextures };
         while (changingSubobjects)
         {
             display.material.mainTexture = bonusTextures.PickRandom().PickRandom();
@@ -732,7 +716,6 @@ public class identificationCrisis : MonoBehaviour
         textures.Add(arsTextures);
         textures.Add(miiTextures);
         textures.Add(spongebobTextures);
-        textures.Add(vtuberTextures);
         return textures.ToArray();
     }
     */
