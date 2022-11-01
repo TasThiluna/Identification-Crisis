@@ -36,7 +36,6 @@ public class identificationCrisis : MonoBehaviour
     public Color[] rainbowColors;
 
     public Texture[] shapeTextures;
-    public Texture[] cutoutTextures;
     public Texture[] boozleglyphTexturesA;
     public Texture[] boozleglyphTexturesB;
     public Texture[] boozleglyphTexturesC;
@@ -353,7 +352,7 @@ public class identificationCrisis : MonoBehaviour
                     stageActive = false;
                     screenText.text = "";
                     display.material = normalMat;
-                    display.transform.localScale = new Vector3(.07f, .001f, .07f);
+                    display.transform.localScale = new Vector3(.07f, .07f, 1f);
                     display.material.mainTexture = questionMarks[0];
                     if (mainRef != null)
                     {
@@ -388,7 +387,7 @@ public class identificationCrisis : MonoBehaviour
                     if (stage != 5 && effect != 1)
                         screenText.text = "";
                     display.material = normalMat;
-                    display.transform.localScale = new Vector3(.07f, .001f, .07f);
+                    display.transform.localScale = new Vector3(.07f, .07f, 1f);
                     display.material.mainTexture = questionMarks[1];
                     display.material.color = Color.white;
                     if (mainRef != null)
@@ -609,7 +608,7 @@ public class identificationCrisis : MonoBehaviour
                 ix = rnd.Range(0, customerNames.Length);
                 Debug.LogFormat("[Identification Crisis #{0}] A customer named {1} has walked in. I don't know what to tell them, I don't serve food.", moduleId, customerNames[ix]);
                 display.material = transparentMat;
-                display.transform.localScale = new Vector3(.035f, .001f, .07f);
+                display.transform.localScale = new Vector3(.0525f, .0777f, 1f);
                 display.material.mainTexture = customerTextures[ix];
                 solution = Encrypt(customerNames[ix], amount, shift);
                 break;
@@ -682,7 +681,7 @@ public class identificationCrisis : MonoBehaviour
         flickeringLights = null;
         foreach (Renderer l in lights)
             l.material.color = Color.black;
-        var clipboardMessages = new[] { Enumerable.Repeat("GETOUT", 50).Join(""), "Smile.", "Let me out.", "The greatest trick the Devil ever pulled was convincing the world He doesn't exist.", "Inside every easy-going person is a long-suffering monster.", "Are you sure you don't have skull disease?", "Feast your eyes, then let them melt.", "Start running." };
+        var clipboardMessages = new[] { Enumerable.Repeat("GETOUT", 50).Join(""), "Smile.", "Let me out.", "The greatest trick the Devil ever pulled was convincing the world He doesn't exist.", "Inside every easy-going person is a long-suffering monster.", "Where is my love?", "Feast your eyes, then let them melt.", "Start running." };
         GUIUtility.systemCopyBuffer = clipboardMessages.PickRandom();
     }
 
@@ -725,14 +724,28 @@ public class identificationCrisis : MonoBehaviour
 
     private IEnumerator ReshowShape()
     {
-        face.transform.localScale = new Vector3(.062f, .001f, .062f);
         face.material.mainTexture = staticTexture;
-        yield return new WaitForSeconds(.2f);
-        face.material.mainTexture = cutoutTextures[shapesUsed[stage - 3]];
+        var elapsed = 0f;
+        var duration = .2f;
+        while (elapsed < duration)
+        {
+            face.material.mainTextureOffset = new Vector2(rnd.Range(0f, 1f), rnd.Range(0f, 1f));
+            yield return null;
+            elapsed += Time.deltaTime;
+        }
+        face.material.mainTextureOffset = new Vector2(0f, 0f);
+        face.material.mainTexture = shapeTextures[shapesUsed[stage - 3]];
         yield return new WaitForSeconds(.5f);
         face.material.mainTexture = staticTexture;
-        yield return new WaitForSeconds(2.77f);
-        face.transform.localScale = new Vector3(.05f, .001f, .05f);
+        elapsed = 0f;
+        duration = 2.77f;
+        while (elapsed < duration)
+        {
+            face.material.mainTextureOffset = new Vector2(rnd.Range(0f, 1f), rnd.Range(0f, 1f));
+            yield return null;
+            elapsed += Time.deltaTime;
+        }
+        face.material.mainTextureOffset = new Vector2(0f, 0f);
         face.material.mainTexture = smileyFaces[1];
     }
 
@@ -918,6 +931,7 @@ public class identificationCrisis : MonoBehaviour
         var compliments = new[] { "GLORIOUS", "WONDERFUL", "SPECTACULAR", "MARVELOUS", "AMAZING", "ASTOUNDING", "AWESOME", "PHENOMENAL", "REMARKABLE" };
         screenText.text = string.Format("{0} SUCCESS!", compliments.PickRandom());
         mainRef = audio.HandlePlaySoundAtTransformWithRef("solve", transform, false);
+        StartCoroutine(Wink());
         StartCoroutine(FlickerShapes(38));
         StartCoroutine(FlickerLightsSolve());
         StartCoroutine(RainbowKeys());
@@ -926,6 +940,13 @@ public class identificationCrisis : MonoBehaviour
         yield return null;
     }
 
+    private IEnumerator Wink()
+    {
+        yield return new WaitForSeconds(2.9267f);
+        face.material.mainTexture = smileyFaces[2];
+        yield return new WaitForSeconds(.134f);
+        face.material.mainTexture = smileyFaces[0];
+    }
 
     private IEnumerator FlickerLightsSolve()
     {
