@@ -157,7 +157,8 @@ public class identificationCrisis : MonoBehaviour
           new Dictionary<string, object>
           {
             { "Key", "UnendingSolveAnimation" },
-            { "Text", "If true, the keyboard never stops cycling through the rainbow, and the spacebar and text lerp through the rainbow as well."}
+            { "Text", "Unending Solve Animation" },
+            { "Description", "If true, the keyboard never stops cycling through the rainbow,\nand the spacebar and text lerp through the rainbow as well."}
           }
         }}
       }
